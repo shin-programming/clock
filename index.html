@@ -59,7 +59,7 @@
             updateClock();
             setInterval(updateClock, 100);
 
-            window.addEventListener('click', () => {
+            window.addEventListener('pointerdown', () => {
                 isDark = !isDark
                 document.body.style.backgroundColor = isDark ? '#000' : '#fff';
                 document.body.style.color = isDark ? '#fff' : '#000';
