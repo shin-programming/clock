@@ -14,7 +14,7 @@
                 margin: 0;
                 cursor: default;
                 user-select: none;
-                font-family: "MS Gothic", "ＭＳ ゴシック", monospace;
+                font-family: system-ui;
             }
 
             html, body {
@@ -28,12 +28,39 @@
 
             #date { font-size: calc(var(--font-size-date) / 34); }
 
-            #clock { font-size: calc(var(--font-size-clock) / 7); }
+            #clock {
+                font-weight: bolder;
+                font-size: calc(var(--font-size-clock) / 7);
+            }
+
+            #LD-toggle-btn {
+                top: 0; left: 0;
+                width: 60px; height: 60px;
+                border: none;
+                display: flex;
+                transition: 0.3s;
+                position: absolute;
+                align-items: center;
+                flex-direction: column;
+                justify-content: center;
+                background-color: #0000;
+            }
+
+            #LD-toggle-btn:hover {
+                width: 70px; height: 70px;
+            }
+
+            #btn-img {
+                width: 100%; height: 100%;
+            }
         </style>
     </head>
     <body>
         <p id="date"></p>
         <h1 id="clock"></h1>
+        <button id="LD-toggle-btn">
+            <img src="img/dark.png" id="btn-img" alt="dark" title="ダークモードに切り替え" draggable="false">
+        </button>
         <script>
             const dateText = document.getElementById('date');
             const clockText = document.getElementById('clock');
@@ -59,11 +86,43 @@
             updateClock();
             setInterval(updateClock, 100);
 
-            window.addEventListener('pointerdown', () => {
+            document.getElementById('LD-toggle-btn').addEventListener('pointerdown', () => {
                 isDark = !isDark
-                document.body.style.backgroundColor = isDark ? '#000' : '#fff';
-                document.body.style.color = isDark ? '#fff' : '#000';
+                const img = document.getElementById('btn-img');
+
+                if (isDark) {
+                    Object.assign(img, {
+                        src: 'img/light.png',
+                        alt: 'light',
+                        title: 'ライトモードに切り替え'
+                    });
+                } else {
+                    Object.assign(img, {
+                        src: 'img/dark.png',
+                        alt: 'dark',
+                        title: 'ダークモードに切り替え'
+                    });
+                }
             });
+
+            let hue = 0;
+
+            function updateColor() {
+                if (isDark) {
+                    document.body.style.background = '#000';
+                    dateText.style.color = `hsl(${hue}, 100%, 77%)`;
+                    clockText.style.color = `hsl(${hue}, 100%, 77%)`;
+                } else {
+                    document.body.style.background = `linear-gradient(45deg, hsl(${hue}, 100%, 77%), hsl(${(hue + 60) % 360}, 100%, 77%))`;
+                    dateText.style.color = '#000';
+                    clockText.style.color = '#000';
+                }
+
+                hue = (hue + 0.18) % 360;
+                requestAnimationFrame(updateColor);
+            }
+
+            updateColor();
         </script>
     </body>
 </html>
