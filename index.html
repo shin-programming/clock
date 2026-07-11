@@ -59,7 +59,7 @@
         <p id="date"></p>
         <h1 id="clock"></h1>
         <button id="LD-toggle-btn">
-            <img src="img/dark.png" id="btn-img" alt="dark" title="ダークモードに切り替え" draggable="false">
+            <img src="img/dark.svg" id="btn-img" alt="dark" title="ダークモードに切り替え" draggable="false">
         </button>
         <script>
             const dateText = document.getElementById('date');
@@ -92,13 +92,13 @@
 
                 if (isDark) {
                     Object.assign(img, {
-                        src: 'img/light.png',
+                        src: 'img/light.svg',
                         alt: 'light',
                         title: 'ライトモードに切り替え'
                     });
                 } else {
                     Object.assign(img, {
-                        src: 'img/dark.png',
+                        src: 'img/dark.svg',
                         alt: 'dark',
                         title: 'ダークモードに切り替え'
                     });
